@@ -1,13 +1,47 @@
 ﻿<Page
-    x:Class="CortanaGameSample.MainPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:CortanaGameSample"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    x:Class = "CortanaGameSample.MainPage"
+    xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local = "using:CortanaGameSample"
+    xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DataContext = "{d:DesignInstance local:KingdomViewModel}"
+    mc:Ignorable = "d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <StackPanel Background = "{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBlock FontSize = "32" FontWeight = "Bold">Cortana Game Sample</TextBlock>
 
-    </Grid>
+        <TextBlock FontSize = "24">Town Hall</TextBlock>
+        <StackPanel Orientation = "Horizontal">
+            <TextBlock>Finishes At</TextBlock>
+            <TextBlock Text = "{Binding TownHall.FinishedTime}" Padding = "5,0,0,0" />
+        </StackPanel>
+
+        <TextBlock FontSize = "24">Gold</TextBlock>
+        <StackPanel Orientation = "Horizontal">
+            <Button Click = "OnCollect">Collect</Button>
+            <TextBlock VerticalAlignment = "Center" Text = "{Binding CurrentGold}" Padding = "10,0,0,0" />
+        </StackPanel>
+
+        <TextBlock FontSize = "24">Last Attack</TextBlock>
+        <StackPanel Orientation = "Horizontal">
+            <TextBlock>by</TextBlock>
+            <TextBlock Text = "{Binding LastAttack.AttackerName}" Padding = "5,0,0,0" />
+            <TextBlock Padding = "5,0,0,0">at</TextBlock>
+            <TextBlock Text = "{Binding LastAttack.AttackTime}" Padding = "5,0,0,0" />
+        </StackPanel>
+
+        <TextBlock FontSize = "24">Protection</TextBlock>
+        <StackPanel Orientation = "Horizontal">
+            <TextBlock>Expires At</TextBlock>
+            <TextBlock Text = "{Binding ProtectionExpirationTime}" Padding = "5,0,0,0" />
+        </StackPanel>
+
+        <TextBlock FontSize = "24">Current Event</TextBlock>
+        <StackPanel Orientation = "Horizontal">
+            <TextBlock Text = "{Binding CurrentEvent.EventName}" />
+            <TextBlock Padding = "5,0,0,0">finishes at</TextBlock>
+            <TextBlock Text = "{Binding CurrentEvent.ExpirationTime}" Padding = "5,0,0,0" />
+        </StackPanel>
+    </StackPanel>
 </Page>
