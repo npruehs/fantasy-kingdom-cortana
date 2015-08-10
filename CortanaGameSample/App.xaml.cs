@@ -79,8 +79,28 @@ namespace CortanaGameSample
             }
             // Ensure the current window is active
             Window.Current.Activate();
+
+            // Register voice commands.
+            this.RegisterVoiceCommands();
         }
 
+        private async void RegisterVoiceCommands()
+        {
+            System.Diagnostics.Debug.WriteLine("Installing voice commands...");
+
+            // Get voice command definition (VCD) file.
+            var storageFile =
+                await
+                    Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(
+                        new Uri("ms-appx:///FantasyKingdomCortanaCommands.xml"));
+
+            // Install voice commands.
+            await
+                Windows.ApplicationModel.VoiceCommands.VoiceCommandDefinitionManager
+                    .InstallCommandDefinitionsFromStorageFileAsync(storageFile);
+
+            System.Diagnostics.Debug.WriteLine("Voice commands installed.");
+        }
         /// <summary>
         /// Invoked when Navigation to a certain page fails
         /// </summary>

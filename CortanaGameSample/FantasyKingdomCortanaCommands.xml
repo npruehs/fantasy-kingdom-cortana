@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VoiceCommands xmlns="http://schemas.microsoft.com/voicecommands/1.2">
+  <CommandSet xml:lang="en-us" Name="FantasyKingdomCommandSet_en-us">
+    <CommandPrefix> Kingdom, </CommandPrefix>
+    <Example> Show my money </Example>
+
+    <Command Name="howMuchGold">
+      <Example> Show my money </Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase"> show [my] money </ListenFor>
+      <Feedback> Checking your gold </Feedback>
+      <VoiceCommandService Target="FantasyKingdomCortanaService"/>
+    </Command>
+
+  </CommandSet>
+
+  <!-- Other CommandSets for other languages -->
+
+</VoiceCommands>
