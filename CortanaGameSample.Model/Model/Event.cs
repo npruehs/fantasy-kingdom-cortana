@@ -1,21 +1,16 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AttackViewModel.cs" company="Slash Games">
+// <copyright file="Event.cs" company="Slash Games">
 //   Copyright (c) Slash Games. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
-namespace CortanaGameSample
+namespace CortanaGameSample.Model
 {
     using System;
 
-    public class AttackViewModel
+    public class Event
     {
-        #region Properties
+        public string EventName { get; set; }
 
-        public string AttackerName { get; set; }
-
-        public DateTime AttackTime { get; set; }
-
-        #endregion
+        public DateTime ExpirationTime { get; set; }
     }
 }

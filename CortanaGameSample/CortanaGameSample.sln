@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CortanaGameSample", "Cortan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CortanaGameSample.Service", "..\CortanaGameSample.Service\CortanaGameSample.Service.csproj", "{717CA306-3437-4DEA-99D7-950E0D5612D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CortanaGameSample.Model", "..\CortanaGameSample.Model\CortanaGameSample.Model.csproj", "{C4E1A8FD-D2EF-406C-875B-123704CD575E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,22 @@ Global
 		{717CA306-3437-4DEA-99D7-950E0D5612D8}.Release|x64.Build.0 = Release|x64
 		{717CA306-3437-4DEA-99D7-950E0D5612D8}.Release|x86.ActiveCfg = Release|x86
 		{717CA306-3437-4DEA-99D7-950E0D5612D8}.Release|x86.Build.0 = Release|x86
+		{C4E1A8FD-D2EF-406C-875B-123704CD575E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4E1A8FD-D2EF-406C-875B-123704CD575E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4E1A8FD-D2EF-406C-875B-123704CD575E}.Debug|ARM.ActiveCfg = Debug|ARM
+		{C4E1A8FD-D2EF-406C-875B-123704CD575E}.Debug|ARM.Build.0 = Debug|ARM
+		{C4E1A8FD-D2EF-406C-875B-123704CD575E}.Debug|x64.ActiveCfg = Debug|x64
+		{C4E1A8FD-D2EF-406C-875B-123704CD575E}.Debug|x64.Build.0 = Debug|x64
+		{C4E1A8FD-D2EF-406C-875B-123704CD575E}.Debug|x86.ActiveCfg = Debug|x86
+		{C4E1A8FD-D2EF-406C-875B-123704CD575E}.Debug|x86.Build.0 = Debug|x86
+		{C4E1A8FD-D2EF-406C-875B-123704CD575E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4E1A8FD-D2EF-406C-875B-123704CD575E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4E1A8FD-D2EF-406C-875B-123704CD575E}.Release|ARM.ActiveCfg = Release|ARM
+		{C4E1A8FD-D2EF-406C-875B-123704CD575E}.Release|ARM.Build.0 = Release|ARM
+		{C4E1A8FD-D2EF-406C-875B-123704CD575E}.Release|x64.ActiveCfg = Release|x64
+		{C4E1A8FD-D2EF-406C-875B-123704CD575E}.Release|x64.Build.0 = Release|x64
+		{C4E1A8FD-D2EF-406C-875B-123704CD575E}.Release|x86.ActiveCfg = Release|x86
+		{C4E1A8FD-D2EF-406C-875B-123704CD575E}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

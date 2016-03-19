@@ -1,19 +1,12 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ConstructionViewModel.cs" company="Slash Games">
+// <copyright file="Treasury.cs" company="Slash Games">
 //   Copyright (c) Slash Games. All rights reserved.
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
-
-namespace CortanaGameSample
+namespace CortanaGameSample.Model
 {
-    using System;
-
-    public class ConstructionViewModel
+    public class Treasury
     {
-        #region Properties
-
-        public DateTime FinishedTime { get; set; }
-
-        #endregion
+        public int Gold { get; set; } 
     }
 }

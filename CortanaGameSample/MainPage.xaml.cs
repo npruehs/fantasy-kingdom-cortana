@@ -8,8 +8,13 @@
 
 namespace CortanaGameSample
 {
+    using System;
+
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
+
+    using CortanaGameSample.IO;
+    using CortanaGameSample.Model;
 
     /// <summary>
     ///   An empty page that can be used on its own or navigated to within a Frame.
@@ -32,6 +37,22 @@ namespace CortanaGameSample
             this.viewModel.InitWithRandomValues();
 
             this.DataContext = this.viewModel;
+
+            this.Init();
+        }
+
+        private async void Init()
+        {
+            // Load.
+            var treasurySerializer = new TreasurySerializer();
+            var treasury = await treasurySerializer.Load();
+
+            if (treasury == null)
+            {
+                return;
+            }
+
+            this.viewModel.CurrentGold = treasury.Gold;
         }
 
         #endregion
@@ -41,6 +62,12 @@ namespace CortanaGameSample
         private void OnCollect(object sender, RoutedEventArgs e)
         {
             this.viewModel.CollectGold();
+
+            // Save.
+            var treasury = new Treasury { Gold = this.viewModel.CurrentGold };
+
+            var treasurySerializer = new TreasurySerializer();
+            treasurySerializer.Save(treasury);
         }
 
         #endregion

@@ -11,6 +11,7 @@ namespace CortanaGameSample
     using System.Runtime.CompilerServices;
 
     using CortanaGameSample.Annotations;
+    using CortanaGameSample.Model;
 
     public class KingdomViewModel : INotifyPropertyChanged
     {
@@ -28,7 +29,7 @@ namespace CortanaGameSample
 
         #region Properties
 
-        public EventViewModel CurrentEvent { get; set; }
+        public Event CurrentEvent { get; set; }
 
         public int CurrentGold
         {
@@ -43,11 +44,11 @@ namespace CortanaGameSample
             }
         }
 
-        public AttackViewModel LastAttack { get; set; }
+        public AttackReport LastAttack { get; set; }
 
         public DateTime ProtectionExpirationTime { get; set; }
 
-        public ConstructionViewModel TownHall { get; set; }
+        public Construction TownHall { get; set; }
 
         #endregion
 
@@ -61,9 +62,13 @@ namespace CortanaGameSample
         public void InitWithRandomValues()
         {
             this.CurrentGold = 300;
-            this.TownHall = new ConstructionViewModel { FinishedTime = DateTime.Now + TimeSpan.FromHours(1) };
+            this.TownHall = new Construction
+            {
+                ConstructionName = "Town Hall",
+                FinishedTime = DateTime.Now + TimeSpan.FromHours(1)
+            };
 
-            this.LastAttack = new AttackViewModel
+            this.LastAttack = new AttackReport
             {
                 AttackerName = "EvilPlayer356",
                 AttackTime = DateTime.Now - TimeSpan.FromHours(3)
@@ -71,7 +76,7 @@ namespace CortanaGameSample
 
             this.ProtectionExpirationTime = DateTime.Now + TimeSpan.FromHours(2);
 
-            this.CurrentEvent = new EventViewModel
+            this.CurrentEvent = new Event
             {
                 EventName = "Gold Rush",
                 ExpirationTime = DateTime.Now + TimeSpan.FromMinutes(37)
