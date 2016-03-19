@@ -113,7 +113,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IO\TreasurySerializer.cs" />
+    <Compile Include="IO\FantasyKingdomSerializer.cs" />
     <Compile Include="Model\AttackReport.cs" />
     <Compile Include="Model\Construction.cs" />
     <Compile Include="Model\Event.cs" />

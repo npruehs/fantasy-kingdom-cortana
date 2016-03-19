@@ -14,6 +14,7 @@ namespace CortanaGameSample.Service
     using Windows.ApplicationModel.VoiceCommands;
 
     using CortanaGameSample.IO;
+    using CortanaGameSample.Model;
 
     public sealed class FantasyKingdomCortanaService : IBackgroundTask
     {
@@ -41,8 +42,8 @@ namespace CortanaGameSample.Service
 
                 await this.ShowProgressScreen("Checking your treasury...", voiceServiceConnection);
 
-                var treasurySerializer = new TreasurySerializer();
-                var treasury = await treasurySerializer.Load();
+                var serializer = new FantasyKingdomSerializer();
+                var treasury = await serializer.Load<Treasury>();
 
                 if (treasury != null)
                 {

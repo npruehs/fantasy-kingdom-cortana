@@ -9,6 +9,7 @@
 namespace CortanaGameSample
 {
     using System;
+    using System.Runtime.CompilerServices;
 
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
@@ -43,16 +44,63 @@ namespace CortanaGameSample
         private async void Init()
         {
             // Load.
-            var treasurySerializer = new TreasurySerializer();
-            var treasury = await treasurySerializer.Load();
+            var serializer = new FantasyKingdomSerializer();
+            var attackReport = await serializer.Load<AttackReport>();
+            var construction = await serializer.Load<Construction>();
+            var currentEvent = await serializer.Load<Event>();
+            var protection = await serializer.Load<Protection>();
+            var treasury = await serializer.Load<Treasury>();
 
-            if (treasury == null)
+            // Fill view model.
+            if (attackReport != null)
             {
-                this.InitWithRandomValues();
+                this.viewModel.LastAttack.AttackTime = attackReport.AttackTime;
+                this.viewModel.LastAttack.AttackerName = attackReport.AttackerName;
             }
             else
             {
+                this.viewModel.LastAttack.AttackTime = DateTime.Now - TimeSpan.FromHours(3);
+                this.viewModel.LastAttack.AttackerName = "EvilPlayer356";
+            }
+
+            if (construction != null)
+            {
+                this.viewModel.Construction.ConstructionName = construction.ConstructionName;
+                this.viewModel.Construction.FinishedTime = construction.FinishedTime;
+            }
+            else
+            {
+                this.viewModel.Construction.ConstructionName = "Town Hall";
+                this.viewModel.Construction.FinishedTime = DateTime.Now + TimeSpan.FromHours(1);
+            }
+
+            if (currentEvent != null)
+            {
+                this.viewModel.CurrentEvent.ExpirationTime = currentEvent.ExpirationTime;
+                this.viewModel.CurrentEvent.EventName = currentEvent.EventName;
+            }
+            else
+            {
+                this.viewModel.CurrentEvent.EventName = "Gold Rush";
+                this.viewModel.CurrentEvent.ExpirationTime = DateTime.Now + TimeSpan.FromMinutes(37);
+            }
+
+            if (protection != null)
+            {
+                this.viewModel.Protection.ExpirationTime = protection.ExpirationTime;
+            }
+            else
+            {
+                this.viewModel.Protection.ExpirationTime = DateTime.Now + TimeSpan.FromHours(2);
+            }
+
+            if (treasury != null)
+            {
                 this.viewModel.Treasury.Gold = treasury.Gold;
+            }
+            else
+            {
+                this.viewModel.Treasury.Gold = 300;
             }
         }
 
@@ -63,12 +111,7 @@ namespace CortanaGameSample
         private void OnCollect(object sender, RoutedEventArgs e)
         {
             this.CollectGold();
-
-            // Save.
-            var treasury = new Treasury { Gold = this.viewModel.Treasury.Gold };
-
-            var treasurySerializer = new TreasurySerializer();
-            treasurySerializer.Save(treasury);
+            this.Save();
         }
 
         #endregion
@@ -79,20 +122,34 @@ namespace CortanaGameSample
             this.viewModel.Treasury.Gold += 100;
         }
 
-        public void InitWithRandomValues()
+        private void Save()
         {
-            this.viewModel.Treasury.Gold = 300;
+            // Convert view model to model.
+            var attackReport = new AttackReport
+            {
+                AttackTime = this.viewModel.LastAttack.AttackTime,
+                AttackerName = this.viewModel.LastAttack.AttackerName
+            };
+            var construction = new Construction
+            {
+                ConstructionName = this.viewModel.Construction.ConstructionName,
+                FinishedTime = this.viewModel.Construction.FinishedTime
+            };
+            var currentEvent = new Event
+            {
+                EventName = this.viewModel.CurrentEvent.EventName,
+                ExpirationTime = this.viewModel.CurrentEvent.ExpirationTime
+            };
+            var protection = new Protection { ExpirationTime = this.viewModel.Protection.ExpirationTime };
+            var treasury = new Treasury { Gold = this.viewModel.Treasury.Gold };
 
-            this.viewModel.Construction.ConstructionName = "Town Hall";
-            this.viewModel.Construction.FinishedTime = DateTime.Now + TimeSpan.FromHours(1);
-
-            this.viewModel.LastAttack.AttackTime = DateTime.Now - TimeSpan.FromHours(3);
-            this.viewModel.LastAttack.AttackerName = "EvilPlayer356";
-
-            this.viewModel.Protection.ExpirationTime = DateTime.Now + TimeSpan.FromHours(2);
-
-            this.viewModel.CurrentEvent.EventName = "Gold Rush";
-            this.viewModel.CurrentEvent.ExpirationTime = DateTime.Now + TimeSpan.FromMinutes(37);
+            // Save data.
+            var serializer = new FantasyKingdomSerializer();
+            serializer.Save(attackReport);
+            serializer.Save(construction);
+            serializer.Save(currentEvent);
+            serializer.Save(protection);
+            serializer.Save(treasury);
         }
     }
 }
