@@ -13,6 +13,8 @@ namespace CortanaGameSample.Service
     using Windows.ApplicationModel.Background;
     using Windows.ApplicationModel.VoiceCommands;
 
+    using CortanaGameSample.IO;
+
     public sealed class FantasyKingdomCortanaService : IBackgroundTask
     {
         #region Fields
@@ -39,12 +41,29 @@ namespace CortanaGameSample.Service
 
                 await this.ShowProgressScreen("Checking your treasury...", voiceServiceConnection);
 
-                var userMessage = new VoiceCommandUserMessage();
-                userMessage.DisplayMessage = "You have 100 gold.";
-                userMessage.SpokenMessage = "You have 100 gold.";
+                var treasurySerializer = new TreasurySerializer();
+                var treasury = await treasurySerializer.Load();
 
-                var response = VoiceCommandResponse.CreateResponse(userMessage);
-                await voiceServiceConnection.ReportSuccessAsync(response);
+                if (treasury != null)
+                {
+                    var userMessage = new VoiceCommandUserMessage();
+                    var userMessageText = string.Format("You have {0} gold.", treasury.Gold);
+                    userMessage.DisplayMessage = userMessageText;
+                    userMessage.SpokenMessage = userMessageText;
+
+                    var response = VoiceCommandResponse.CreateResponse(userMessage);
+                    await voiceServiceConnection.ReportSuccessAsync(response);
+                }
+                else
+                {
+                    var userMessage = new VoiceCommandUserMessage();
+                    var userMessageText = "Sorry, I couldn't find your treasury.";
+                    userMessage.DisplayMessage = userMessageText;
+                    userMessage.SpokenMessage = userMessageText;
+
+                    var response = VoiceCommandResponse.CreateResponse(userMessage);
+                    await voiceServiceConnection.ReportSuccessAsync(response);
+                }
             }
         }
 

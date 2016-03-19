@@ -117,6 +117,12 @@
     <Compile Include="FantasyKingdomCortanaService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CortanaGameSample.Model\CortanaGameSample.Model.csproj">
+      <Project>{C4E1A8FD-D2EF-406C-875B-123704CD575E}</Project>
+      <Name>CortanaGameSample.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
