@@ -36,12 +36,5 @@
             <TextBlock>Expires At</TextBlock>
             <TextBlock Text = "{Binding Protection.ExpirationTime}" Padding = "5,0,0,0" />
         </StackPanel>
-
-        <TextBlock FontSize = "24">Current Event</TextBlock>
-        <StackPanel Orientation = "Horizontal">
-            <TextBlock Text = "{Binding CurrentEvent.EventName}" />
-            <TextBlock Padding = "5,0,0,0">finishes at</TextBlock>
-            <TextBlock Text = "{Binding CurrentEvent.ExpirationTime}" Padding = "5,0,0,0" />
-        </StackPanel>
     </StackPanel>
 </Page>

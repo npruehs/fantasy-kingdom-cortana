@@ -47,7 +47,6 @@ namespace CortanaGameSample
             var serializer = new FantasyKingdomSerializer();
             var attackReport = await serializer.Load<AttackReport>();
             var construction = await serializer.Load<Construction>();
-            var currentEvent = await serializer.Load<Event>();
             var protection = await serializer.Load<Protection>();
             var treasury = await serializer.Load<Treasury>();
 
@@ -72,17 +71,6 @@ namespace CortanaGameSample
             {
                 this.viewModel.Construction.ConstructionName = "Town Hall";
                 this.viewModel.Construction.FinishedTime = DateTime.Now + TimeSpan.FromHours(1);
-            }
-
-            if (currentEvent != null)
-            {
-                this.viewModel.CurrentEvent.ExpirationTime = currentEvent.ExpirationTime;
-                this.viewModel.CurrentEvent.EventName = currentEvent.EventName;
-            }
-            else
-            {
-                this.viewModel.CurrentEvent.EventName = "Gold Rush";
-                this.viewModel.CurrentEvent.ExpirationTime = DateTime.Now + TimeSpan.FromMinutes(37);
             }
 
             if (protection != null)
@@ -135,11 +123,6 @@ namespace CortanaGameSample
                 ConstructionName = this.viewModel.Construction.ConstructionName,
                 FinishedTime = this.viewModel.Construction.FinishedTime
             };
-            var currentEvent = new Event
-            {
-                EventName = this.viewModel.CurrentEvent.EventName,
-                ExpirationTime = this.viewModel.CurrentEvent.ExpirationTime
-            };
             var protection = new Protection { ExpirationTime = this.viewModel.Protection.ExpirationTime };
             var treasury = new Treasury { Gold = this.viewModel.Treasury.Gold };
 
@@ -147,7 +130,6 @@ namespace CortanaGameSample
             var serializer = new FantasyKingdomSerializer();
             serializer.Save(attackReport);
             serializer.Save(construction);
-            serializer.Save(currentEvent);
             serializer.Save(protection);
             serializer.Save(treasury);
         }

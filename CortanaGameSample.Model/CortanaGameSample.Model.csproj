@@ -116,7 +116,6 @@
     <Compile Include="IO\FantasyKingdomSerializer.cs" />
     <Compile Include="Model\AttackReport.cs" />
     <Compile Include="Model\Construction.cs" />
-    <Compile Include="Model\Event.cs" />
     <Compile Include="Model\Protection.cs" />
     <Compile Include="Model\Treasury.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -19,8 +19,6 @@ namespace CortanaGameSample
 
         public ConstructionViewModel Construction { get; private set; }
 
-        public EventViewModel CurrentEvent { get; private set; }
-
         public ProtectionViewModel Protection { get; private set; }
 
         public TreasuryViewModel Treasury { get; private set; }
@@ -29,7 +27,6 @@ namespace CortanaGameSample
         {
             this.LastAttack = new AttackReportViewModel();
             this.Construction = new ConstructionViewModel();
-            this.CurrentEvent = new EventViewModel();
             this.Protection = new ProtectionViewModel();
             this.Treasury = new TreasuryViewModel();
         }

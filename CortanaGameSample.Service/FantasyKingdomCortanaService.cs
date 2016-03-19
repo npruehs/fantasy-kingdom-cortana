@@ -36,36 +36,137 @@ namespace CortanaGameSample.Service
 
             if (triggerDetails != null && triggerDetails.Name == "FantasyKingdomCortanaService")
             {
-                var voiceServiceConnection = VoiceCommandServiceConnection.FromAppServiceTriggerDetails(triggerDetails);
-                voiceServiceConnection.VoiceCommandCompleted += this.OnVoiceCommandCompleted;
-                VoiceCommand voiceCommand = await voiceServiceConnection.GetVoiceCommandAsync();
+                var voiceCommandServiceConnection =
+                    VoiceCommandServiceConnection.FromAppServiceTriggerDetails(triggerDetails);
+                voiceCommandServiceConnection.VoiceCommandCompleted += this.OnVoiceCommandCompleted;
 
-                await this.ShowProgressScreen("Checking your treasury...", voiceServiceConnection);
+                var voiceCommand = await voiceCommandServiceConnection.GetVoiceCommandAsync();
 
-                var serializer = new FantasyKingdomSerializer();
-                var treasury = await serializer.Load<Treasury>();
-
-                if (treasury != null)
+                if (voiceCommand.CommandName == "Treasury")
                 {
-                    var userMessage = new VoiceCommandUserMessage();
-                    var userMessageText = string.Format("You have {0} gold.", treasury.Gold);
-                    userMessage.DisplayMessage = userMessageText;
-                    userMessage.SpokenMessage = userMessageText;
+                    this.ShowTreasury(voiceCommandServiceConnection);
+                }
+                else if (voiceCommand.CommandName == "Attack")
+                {
+                    this.ShowAttack(voiceCommandServiceConnection);
+                }
+                else if (voiceCommand.CommandName == "Construction")
+                {
+                    this.ShowConstruction(voiceCommandServiceConnection);
+                }
+                else if (voiceCommand.CommandName == "Protection")
+                {
+                    this.ShowProtection(voiceCommandServiceConnection);
+                }
+            }
+        }
 
-                    var response = VoiceCommandResponse.CreateResponse(userMessage);
-                    await voiceServiceConnection.ReportSuccessAsync(response);
+        private async void ShowProtection(VoiceCommandServiceConnection voiceCommandServiceConnection)
+        {
+            // Show we've recognized the command.
+            await this.ReportProgress("Checking your protection status...", voiceCommandServiceConnection);
+
+            // Read data.
+            var serializer = new FantasyKingdomSerializer();
+            var protection = await serializer.Load<Protection>();
+
+            // Return answer.
+            string message;
+
+            if (protection != null)
+            {
+                if (protection.ExpirationTime < DateTime.Now)
+                {
+                    message = string.Format(
+                        "Unfortunately, your protection has expired at {0}.",
+                        protection.ExpirationTime);
                 }
                 else
                 {
-                    var userMessage = new VoiceCommandUserMessage();
-                    var userMessageText = "Sorry, I couldn't find your treasury.";
-                    userMessage.DisplayMessage = userMessageText;
-                    userMessage.SpokenMessage = userMessageText;
-
-                    var response = VoiceCommandResponse.CreateResponse(userMessage);
-                    await voiceServiceConnection.ReportSuccessAsync(response);
+                    message = string.Format("Yes, you are still protected until {0}.", protection.ExpirationTime);
                 }
             }
+            else
+            {
+                message = "Sorry, I couldn't find any protection status data.";
+            }
+
+            await this.ReportSuccess(message, voiceCommandServiceConnection);
+        }
+
+        private async void ShowConstruction(VoiceCommandServiceConnection voiceCommandServiceConnection)
+        {
+            // Show we've recognized the command.
+            await this.ReportProgress("Checking your construction progress...", voiceCommandServiceConnection);
+
+            // Read data.
+            var serializer = new FantasyKingdomSerializer();
+            var construction = await serializer.Load<Construction>();
+
+            // Return answer.
+            string message;
+
+            if (construction != null)
+            {
+                if (construction.FinishedTime < DateTime.Now)
+                {
+                    message = string.Format(
+                        "Your {0} has been finished at {1}.",
+                        construction.ConstructionName,
+                        construction.FinishedTime);
+                }
+                else
+                {
+                    message = string.Format(
+                        "Your {0} will be finished at {1}.",
+                        construction.ConstructionName,
+                        construction.FinishedTime);
+                }
+            }
+            else
+            {
+                message = "Sorry, I couldn't find any constructions.";
+            }
+
+            await this.ReportSuccess(message, voiceCommandServiceConnection);
+        }
+
+        private async void ShowAttack(VoiceCommandServiceConnection voiceCommandServiceConnection)
+        {
+            // Show we've recognized the command.
+            await this.ReportProgress("Checking for recent attacks...", voiceCommandServiceConnection);
+
+            // Read data.
+            var serializer = new FantasyKingdomSerializer();
+            var attackReport = await serializer.Load<AttackReport>();
+
+            // Return answer.
+            var message = attackReport != null
+                ? string.Format(
+                    "You have been attacked at {0} by {1}.",
+                    attackReport.AttackTime,
+                    attackReport.AttackerName)
+                : "There haven't been any attacked recently.";
+
+            await this.ReportSuccess(message, voiceCommandServiceConnection);
+        }
+
+        private async void ShowTreasury(VoiceCommandServiceConnection voiceCommandServiceConnection)
+        {
+            // Show we've recognized the command.
+            await this.ReportProgress("Checking your treasury...", voiceCommandServiceConnection);
+
+            // Read data.
+            var serializer = new FantasyKingdomSerializer();
+            var treasury = await serializer.Load<Treasury>();
+
+            // Return answer.
+            var message = treasury != null
+                ? string.Format(
+                    "You have {0} gold.", treasury.Gold)
+                : "Sorry, I couldn't find your treasury.";
+
+            await this.ReportSuccess(message, voiceCommandServiceConnection);            
         }
 
         #endregion
@@ -88,13 +189,22 @@ namespace CortanaGameSample.Service
             }
         }
 
-        private async Task ShowProgressScreen(string message, VoiceCommandServiceConnection voiceServiceConnection)
+        private async Task ReportProgress(string message, VoiceCommandServiceConnection voiceCommandServiceConnection)
         {
-            var userProgressMessage = new VoiceCommandUserMessage();
-            userProgressMessage.DisplayMessage = userProgressMessage.SpokenMessage = message;
+            var response = this.CreateResponse(message);
+            await voiceCommandServiceConnection.ReportProgressAsync(response);
+        }
 
-            VoiceCommandResponse response = VoiceCommandResponse.CreateResponse(userProgressMessage);
-            await voiceServiceConnection.ReportProgressAsync(response);
+        private async Task ReportSuccess(string message, VoiceCommandServiceConnection voiceCommandServiceConnection)
+        {
+            var response = this.CreateResponse(message);
+            await voiceCommandServiceConnection.ReportSuccessAsync(response);
+        }
+
+        private VoiceCommandResponse CreateResponse(string message)
+        {
+            var userProgressMessage = new VoiceCommandUserMessage { DisplayMessage = message, SpokenMessage = message };
+            return VoiceCommandResponse.CreateResponse(userProgressMessage);
         }
 
         #endregion
