@@ -1,9 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AttackReportViewModel.cs" company="Slash Games">
-//   Copyright (c) Slash Games. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-namespace CortanaGameSample
+﻿namespace CortanaGameSample.ViewModels
 {
     using System;
     using System.ComponentModel;
@@ -13,17 +8,21 @@ namespace CortanaGameSample
 
     public class AttackReportViewModel : INotifyPropertyChanged
     {
+        #region Fields
+
         private string attackerName;
 
         private DateTime attackTime;
 
+        #endregion
+
+        #region Events
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        #endregion
+
+        #region Properties
 
         public string AttackerName
         {
@@ -50,5 +49,17 @@ namespace CortanaGameSample
                 this.OnPropertyChanged();
             }
         }
+
+        #endregion
+
+        #region Methods
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
     }
 }

@@ -1,9 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FantasyKingdomSerializer.cs" company="Slash Games">
-//   Copyright (c) Slash Games. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-namespace CortanaGameSample.IO
+﻿namespace CortanaGameSample.IO
 {
     using System;
     using System.IO;
@@ -14,10 +9,59 @@ namespace CortanaGameSample.IO
     using Windows.Storage;
     using Windows.Storage.Streams;
 
-    using CortanaGameSample.Model;
-
     public class FantasyKingdomSerializer
     {
+        #region Public Methods and Operators
+
+        public async Task<T> Load<T>()
+        {
+            var fileName = this.GetFileName<T>();
+            return await this.Load<T>(fileName);
+        }
+
+        public async Task<T> Load<T>(string filename)
+        {
+            // Get local storage.
+            var storageFolder = ApplicationData.Current.LocalFolder;
+
+            // Open file.
+            var sampleFile = await storageFolder.TryGetItemAsync(filename) as StorageFile;
+
+            if (sampleFile == null)
+            {
+                return default(T);
+            }
+
+            using (var stream = await sampleFile.OpenAsync(FileAccessMode.ReadWrite))
+            {
+                // Check if any data present.
+                var size = (uint)stream.Size;
+
+                if (size <= 0)
+                {
+                    return default(T);
+                }
+
+                // Read data.
+                using (var inputStream = stream.GetInputStreamAt(0))
+                {
+                    using (var dataReader = new DataReader(inputStream))
+                    {
+                        await dataReader.LoadAsync(size);
+
+                        var dataString = dataReader.ReadString(size);
+
+                        // Convert XML to model.
+                        var xmlSerializer = new XmlSerializer(typeof(T));
+                        var stringReader = new StringReader(dataString);
+                        var data = (T)xmlSerializer.Deserialize(stringReader);
+
+                        return data;
+                    }
+                }
+            }
+        }
+
         public void Save<T>(T data)
         {
             var fileName = this.GetFileName<T>();
@@ -26,21 +70,22 @@ namespace CortanaGameSample.IO
 
         public async void Save<T>(string fileName, T data)
         {
-            var storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            // Get local storage.
+            var storageFolder = ApplicationData.Current.LocalFolder;
 
-            var sampleFile =
-                await
-                    storageFolder.CreateFileAsync(fileName, Windows.Storage.CreationCollisionOption.ReplaceExisting);
+            // Create file.
+            var sampleFile = await storageFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
 
-            using (var stream = await sampleFile.OpenAsync(Windows.Storage.FileAccessMode.ReadWrite))
+            using (var stream = await sampleFile.OpenAsync(FileAccessMode.ReadWrite))
             {
                 using (var outputStream = stream.GetOutputStreamAt(0))
                 {
-                    using (var dataWriter = new Windows.Storage.Streams.DataWriter(outputStream))
+                    using (var dataWriter = new DataWriter(outputStream))
                     {
-                        XmlSerializer xmlSerializer = new XmlSerializer(typeof(T));
-                        StringBuilder stringBuilder = new StringBuilder();
-                        StringWriter stringWriter = new StringWriter(stringBuilder);
+                        // Convert model to XML.
+                        var xmlSerializer = new XmlSerializer(typeof(T));
+                        var stringBuilder = new StringBuilder();
+                        var stringWriter = new StringWriter(stringBuilder);
                         xmlSerializer.Serialize(stringWriter, data);
 
                         dataWriter.WriteString(stringBuilder.ToString());
@@ -51,53 +96,15 @@ namespace CortanaGameSample.IO
             }
         }
 
+        #endregion
+
+        #region Methods
+
         private string GetFileName<T>()
         {
             return string.Format("{0}.xml", typeof(T).Name);
         }
 
-        public async Task<T> Load<T>()
-        {
-            var fileName = this.GetFileName<T>();
-            return await this.Load<T>(fileName);
-        }
-
-        public async Task<T> Load<T>(string filename)
-        {
-            var storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-
-            var sampleFile = await storageFolder.TryGetItemAsync(filename) as StorageFile;
-
-            if (sampleFile == null)
-            {
-                return default(T);
-            }
-
-            using (var stream = await sampleFile.OpenAsync(Windows.Storage.FileAccessMode.ReadWrite))
-            {
-                uint size = (uint)stream.Size;
-
-                if (size <= 0)
-                {
-                    return default(T);
-                }
-
-                using (var inputStream = stream.GetInputStreamAt(0))
-                {
-                    using (var dataReader = new Windows.Storage.Streams.DataReader(inputStream))
-                    {
-                        await dataReader.LoadAsync(size);
-
-                        var dataString = dataReader.ReadString(size);
-
-                        var xmlSerializer = new XmlSerializer(typeof(T));
-                        var stringReader = new StringReader(dataString);
-                        var data = (T)xmlSerializer.Deserialize(stringReader);
-
-                        return data;
-                    }
-                }
-            }
-        }
+        #endregion
     }
 }

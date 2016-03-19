@@ -2,10 +2,10 @@
     x:Class = "CortanaGameSample.MainPage"
     xmlns = "http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x = "http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local = "using:CortanaGameSample"
     xmlns:d = "http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc = "http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DataContext = "{d:DesignInstance local:KingdomViewModel}"
+    xmlns:viewModels = "using:CortanaGameSample.ViewModels"
+    d:DataContext = "{d:DesignInstance viewModels:KingdomViewModel}"
     mc:Ignorable = "d">
 
     <StackPanel Background = "{ThemeResource ApplicationPageBackgroundThemeBrush}">

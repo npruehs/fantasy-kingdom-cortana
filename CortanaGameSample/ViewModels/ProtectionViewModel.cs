@@ -1,9 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ProtectionViewModel.cs" company="Slash Games">
-//   Copyright (c) Slash Games. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-namespace CortanaGameSample
+﻿namespace CortanaGameSample.ViewModels
 {
     using System;
     using System.ComponentModel;
@@ -11,17 +6,21 @@ namespace CortanaGameSample
 
     using CortanaGameSample.Annotations;
 
-    public class ProtectionViewModel: INotifyPropertyChanged
+    public class ProtectionViewModel : INotifyPropertyChanged
     {
+        #region Fields
+
         private DateTime expirationTime;
+
+        #endregion
+
+        #region Events
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        #endregion
+
+        #region Properties
 
         public DateTime ExpirationTime
         {
@@ -35,5 +34,17 @@ namespace CortanaGameSample
                 this.OnPropertyChanged();
             }
         }
+
+        #endregion
+
+        #region Methods
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
     }
 }

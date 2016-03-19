@@ -1,10 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="FantasyKingdomCortanaService.cs" company="Slash Games">
-//   Copyright (c) Slash Games. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-namespace CortanaGameSample.Service
+﻿namespace CortanaGameSample.Service
 {
     using System;
     using System.Threading.Tasks;
@@ -36,27 +30,29 @@ namespace CortanaGameSample.Service
 
             if (triggerDetails != null && triggerDetails.Name == "FantasyKingdomCortanaService")
             {
+                // Access voice command service.
                 var voiceCommandServiceConnection =
                     VoiceCommandServiceConnection.FromAppServiceTriggerDetails(triggerDetails);
                 voiceCommandServiceConnection.VoiceCommandCompleted += this.OnVoiceCommandCompleted;
 
+                // Get issued voice command.
                 var voiceCommand = await voiceCommandServiceConnection.GetVoiceCommandAsync();
 
-                if (voiceCommand.CommandName == "Treasury")
+                // Check command name.
+                switch (voiceCommand.CommandName)
                 {
-                    this.ShowTreasury(voiceCommandServiceConnection);
-                }
-                else if (voiceCommand.CommandName == "Attack")
-                {
-                    this.ShowAttack(voiceCommandServiceConnection);
-                }
-                else if (voiceCommand.CommandName == "Construction")
-                {
-                    this.ShowConstruction(voiceCommandServiceConnection);
-                }
-                else if (voiceCommand.CommandName == "Protection")
-                {
-                    this.ShowProtection(voiceCommandServiceConnection);
+                    case "Treasury":
+                        this.ShowTreasury(voiceCommandServiceConnection);
+                        break;
+                    case "Attack":
+                        this.ShowAttack(voiceCommandServiceConnection);
+                        break;
+                    case "Construction":
+                        this.ShowConstruction(voiceCommandServiceConnection);
+                        break;
+                    case "Protection":
+                        this.ShowProtection(voiceCommandServiceConnection);
+                        break;
                 }
             }
         }

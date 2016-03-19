@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VoiceCommands xmlns="http://schemas.microsoft.com/voicecommands/1.2">
   <CommandSet xml:lang="en-us" Name="FantasyKingdomCommandSet_en-us">
-    <CommandPrefix> Kingdom, </CommandPrefix>
+    <CommandPrefix> In Kingdom, </CommandPrefix>
     <Example>How much gold do I have</Example>
 
     <Command Name="Treasury">

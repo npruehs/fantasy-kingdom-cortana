@@ -1,26 +1,14 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MainPage.xaml.cs" company="Slash Games">
-//   Copyright (c) Slash Games. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
- // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-
-namespace CortanaGameSample
+﻿namespace CortanaGameSample
 {
     using System;
-    using System.Runtime.CompilerServices;
 
     using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Controls;
 
     using CortanaGameSample.IO;
     using CortanaGameSample.Model;
+    using CortanaGameSample.ViewModels;
 
-    /// <summary>
-    ///   An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage
     {
         #region Fields
 
@@ -40,6 +28,19 @@ namespace CortanaGameSample
 
             this.Init();
         }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        public void CollectGold()
+        {
+            this.viewModel.Treasury.Gold += 100;
+        }
+
+        #endregion
+
+        #region Methods
 
         private async void Init()
         {
@@ -92,22 +93,10 @@ namespace CortanaGameSample
             }
         }
 
-        #endregion
-
-        #region Methods
-
         private void OnCollect(object sender, RoutedEventArgs e)
         {
             this.CollectGold();
             this.Save();
-        }
-
-        #endregion
-
-
-        public void CollectGold()
-        {
-            this.viewModel.Treasury.Gold += 100;
         }
 
         private void Save()
@@ -133,5 +122,7 @@ namespace CortanaGameSample
             serializer.Save(protection);
             serializer.Save(treasury);
         }
+
+        #endregion
     }
 }
