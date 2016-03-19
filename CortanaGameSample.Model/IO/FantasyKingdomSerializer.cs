@@ -25,14 +25,14 @@
             var storageFolder = ApplicationData.Current.LocalFolder;
 
             // Open file.
-            var sampleFile = await storageFolder.TryGetItemAsync(filename) as StorageFile;
+            var dataFile = await storageFolder.TryGetItemAsync(filename) as StorageFile;
 
-            if (sampleFile == null)
+            if (dataFile == null)
             {
                 return default(T);
             }
 
-            using (var stream = await sampleFile.OpenAsync(FileAccessMode.ReadWrite))
+            using (var stream = await dataFile.OpenAsync(FileAccessMode.ReadWrite))
             {
                 // Check if any data present.
                 var size = (uint)stream.Size;
@@ -74,9 +74,9 @@
             var storageFolder = ApplicationData.Current.LocalFolder;
 
             // Create file.
-            var sampleFile = await storageFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+            var dataFile = await storageFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
 
-            using (var stream = await sampleFile.OpenAsync(FileAccessMode.ReadWrite))
+            using (var stream = await dataFile.OpenAsync(FileAccessMode.ReadWrite))
             {
                 using (var outputStream = stream.GetOutputStreamAt(0))
                 {

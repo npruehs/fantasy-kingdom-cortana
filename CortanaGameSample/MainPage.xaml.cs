@@ -31,21 +31,13 @@
 
         #endregion
 
-        #region Public Methods and Operators
-
-        public void CollectGold()
-        {
-            this.viewModel.Treasury.Gold += 100;
-        }
-
-        #endregion
-
         #region Methods
 
         private async void Init()
         {
             // Load.
             var serializer = new FantasyKingdomSerializer();
+
             var attackReport = await serializer.Load<AttackReport>();
             var construction = await serializer.Load<Construction>();
             var protection = await serializer.Load<Protection>();
@@ -95,7 +87,10 @@
 
         private void OnCollect(object sender, RoutedEventArgs e)
         {
-            this.CollectGold();
+            // Update view model.
+            this.viewModel.Treasury.Gold += 100;
+
+            // Save model.
             this.Save();
         }
 
