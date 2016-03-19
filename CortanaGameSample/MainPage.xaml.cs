@@ -34,7 +34,6 @@ namespace CortanaGameSample
             this.InitializeComponent();
 
             this.viewModel = new KingdomViewModel();
-            this.viewModel.InitWithRandomValues();
 
             this.DataContext = this.viewModel;
 
@@ -49,10 +48,12 @@ namespace CortanaGameSample
 
             if (treasury == null)
             {
-                return;
+                this.InitWithRandomValues();
             }
-
-            this.viewModel.CurrentGold = treasury.Gold;
+            else
+            {
+                this.viewModel.Treasury.Gold = treasury.Gold;
+            }
         }
 
         #endregion
@@ -61,15 +62,37 @@ namespace CortanaGameSample
 
         private void OnCollect(object sender, RoutedEventArgs e)
         {
-            this.viewModel.CollectGold();
+            this.CollectGold();
 
             // Save.
-            var treasury = new Treasury { Gold = this.viewModel.CurrentGold };
+            var treasury = new Treasury { Gold = this.viewModel.Treasury.Gold };
 
             var treasurySerializer = new TreasurySerializer();
             treasurySerializer.Save(treasury);
         }
 
         #endregion
+
+
+        public void CollectGold()
+        {
+            this.viewModel.Treasury.Gold += 100;
+        }
+
+        public void InitWithRandomValues()
+        {
+            this.viewModel.Treasury.Gold = 300;
+
+            this.viewModel.Construction.ConstructionName = "Town Hall";
+            this.viewModel.Construction.FinishedTime = DateTime.Now + TimeSpan.FromHours(1);
+
+            this.viewModel.LastAttack.AttackTime = DateTime.Now - TimeSpan.FromHours(3);
+            this.viewModel.LastAttack.AttackerName = "EvilPlayer356";
+
+            this.viewModel.Protection.ExpirationTime = DateTime.Now + TimeSpan.FromHours(2);
+
+            this.viewModel.CurrentEvent.EventName = "Gold Rush";
+            this.viewModel.CurrentEvent.ExpirationTime = DateTime.Now + TimeSpan.FromMinutes(37);
+        }
     }
 }

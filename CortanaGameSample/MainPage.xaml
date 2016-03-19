@@ -11,16 +11,16 @@
     <StackPanel Background = "{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBlock FontSize = "32" FontWeight = "Bold">Cortana Game Sample</TextBlock>
 
-        <TextBlock FontSize = "24">Town Hall</TextBlock>
+        <TextBlock Text = "{Binding Construction.ConstructionName}" FontSize = "24" />
         <StackPanel Orientation = "Horizontal">
             <TextBlock>Finishes At</TextBlock>
-            <TextBlock Text = "{Binding TownHall.FinishedTime}" Padding = "5,0,0,0" />
+            <TextBlock Text = "{Binding Construction.FinishedTime}" Padding = "5,0,0,0" />
         </StackPanel>
 
         <TextBlock FontSize = "24">Gold</TextBlock>
         <StackPanel Orientation = "Horizontal">
             <Button Click = "OnCollect">Collect</Button>
-            <TextBlock VerticalAlignment = "Center" Text = "{Binding CurrentGold}" Padding = "10,0,0,0" />
+            <TextBlock VerticalAlignment = "Center" Text = "{Binding Treasury.Gold}" Padding = "10,0,0,0" />
         </StackPanel>
 
         <TextBlock FontSize = "24">Last Attack</TextBlock>
@@ -34,7 +34,7 @@
         <TextBlock FontSize = "24">Protection</TextBlock>
         <StackPanel Orientation = "Horizontal">
             <TextBlock>Expires At</TextBlock>
-            <TextBlock Text = "{Binding ProtectionExpirationTime}" Padding = "5,0,0,0" />
+            <TextBlock Text = "{Binding Protection.ExpirationTime}" Padding = "5,0,0,0" />
         </StackPanel>
 
         <TextBlock FontSize = "24">Current Event</TextBlock>
