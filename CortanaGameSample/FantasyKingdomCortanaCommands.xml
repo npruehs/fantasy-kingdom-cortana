@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VoiceCommands xmlns="http://schemas.microsoft.com/voicecommands/1.2">
+  <CommandSet xml:lang="en-us" Name="FantasyKingdomCommandSet_en-us">
+    <CommandPrefix> In Kingdom, </CommandPrefix>
+    <Example>How much gold do I have</Example>
+
+    <Command Name="Treasury">
+      <Example>How much gold do I have</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">How much gold do I have</ListenFor>
+      <Feedback>Checking your treasury</Feedback>
+      <VoiceCommandService Target="FantasyKingdomCortanaService"/>
+    </Command>
+
+    <Command Name="Attack">
+      <Example>Have I been attacked</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Have I been attacked</ListenFor>
+      <Feedback>Checking for recent attacks</Feedback>
+      <VoiceCommandService Target="FantasyKingdomCortanaService"/>
+    </Command>
+
+    <Command Name="Construction">
+      <Example>Is my construction finished</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Is my construction finished</ListenFor>
+      <Feedback>Checking your construction progress</Feedback>
+      <VoiceCommandService Target="FantasyKingdomCortanaService"/>
+    </Command>
+
+    <Command Name="Protection">
+      <Example>Am I still protected</Example>
+      <ListenFor RequireAppName="BeforeOrAfterPhrase">Am I still protected</ListenFor>
+      <Feedback>Checking your protection status</Feedback>
+      <VoiceCommandService Target="FantasyKingdomCortanaService"/>
+    </Command>
+  </CommandSet>
+
+  <!-- Other CommandSets for other languages -->
+
+</VoiceCommands>
